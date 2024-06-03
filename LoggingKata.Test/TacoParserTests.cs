@@ -1,5 +1,6 @@
 using System;
 using Xunit;
+using System.Collections.Generic;
 
 namespace LoggingKata.Test
 {
@@ -8,37 +9,45 @@ namespace LoggingKata.Test
         [Fact]
         public void ShouldReturnNonNullObject()
         {
-            //Arrange
+
             var tacoParser = new TacoParser();
 
-            //Act
             var actual = tacoParser.Parse("34.073638, -84.677017, Taco Bell Acwort...");
 
-            //Assert
             Assert.NotNull(actual);
 
         }
 
         [Theory]
         [InlineData("34.073638, -84.677017, Taco Bell Acwort...", -84.677017)]
-        //Add additional inline data. Refer to your CSV file.
+        [InlineData("33.283584, -86.855317, Taco Bell Helena...", -86.855317)]
+        [InlineData("34.057823, -84.592806, Taco Bell Kennesaw...", -84.592806)]
+
         public void ShouldParseLongitude(string line, double expected)
         {
-            // TODO: Complete the test with Arrange, Act, Assert steps below.
-            //       Note: "line" string represents input data we will Parse 
-            //       to extract the Longitude.  
-            //       Each "line" from your .csv file
-            //       represents a TacoBell location
+            var tacoParserObject = new TacoParser();
 
-            //Arrange
+            var actual = tacoParserObject.Parse(line).Location.Longitude;
 
-            //Act
-
-            //Assert
+            Assert.Equal(expected, actual);
         }
 
 
-        //TODO: Create a test called ShouldParseLatitude
 
+
+        [Theory]
+        [InlineData("34.073638, -84.677017, Taco Bell Acwort...", 34.073638)]
+        [InlineData("33.283584, -86.855317, Taco Bell Helena...", 33.283584)]
+        [InlineData("34.057823, -84.592806, Taco Bell Kennesaw...", 34.057823)]
+
+        public void ShouldParseLatitude(string line, double expected)
+        {
+            var tacoParserObject = new TacoParser();
+
+            var actual = tacoParserObject.Parse(line).Location.Latitude;
+
+            Assert.Equal(expected, actual);
+
+        }
     }
 }
